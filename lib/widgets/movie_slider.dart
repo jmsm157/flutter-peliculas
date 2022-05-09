@@ -22,9 +22,6 @@ class _MovieSliderState extends State<MovieSlider> {
   @override
   void initState() {
     scrollController.addListener(() {
-      print('pixels: ${scrollController.position.pixels}');
-      print('max: ${scrollController.position.maxScrollExtent}');
-
       if (scrollController.position.pixels >=
           scrollController.position.maxScrollExtent - 500) {
         widget.onNextPage();
@@ -101,8 +98,8 @@ class _MoviePoster extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, 'details',
-                arguments: 'movie-instance'),
+            onTap: () =>
+                Navigator.pushNamed(context, 'details', arguments: movie),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: FadeInImage(
