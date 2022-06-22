@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:peliculas/models/models.dart';
+import 'package:peliculas/models/search_response.dart';
 
 class MoviesProvider extends ChangeNotifier {
   final String _apiKey = '5325b8a647bce7bf2ee92d84626ed538';
@@ -48,5 +49,13 @@ class MoviesProvider extends ChangeNotifier {
     final creditsResponse = CreditsResponse.fromJson(jsonData);
     moviesCast[movieId] = creditsResponse.cast;
     return creditsResponse.cast;
+  }
+
+  Future<List<Movie>> searchMovies(String query) async {
+    var url = Uri.https(_baseUrl, '3/search/movie',
+        {'api_key': _apiKey, 'language': _language, 'query': query});
+    final response = await http.get(url);
+    final searchMovie = SearchResponse.formJson(response.body);
+    return searchMovie.results;
   }
 }
